@@ -22,7 +22,7 @@ async function checkStock() {
         const page = await browser.newPage();
         
         for (const sku of SKUs) {
-            const url = `https://www.motorola.in/smartphones-motorola-edge-50-neo/p?skuId=${sku}`;
+            const url = `https://www.motorola.in/smartphones-moto-edge-50-neo/p?skuId=${sku}`;
             console.log(`Checking color SKU: ${sku}...`);
             
             await page.goto(url, { waitUntil: 'networkidle2' });
