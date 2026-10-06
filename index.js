@@ -3,7 +3,8 @@ const axios = require('axios');
 
 const TOKEN = process.env.TELEGRAM_TOKEN;
 const CHAT_ID = process.env.TELEGRAM_CHAT_ID;
-const SKUs = [489, 490, 492, 494]; 
+const SKUs = [455, 458]; 
+
 
 async function checkStock() {
     const browser = await puppeteer.launch({ 
@@ -21,7 +22,7 @@ async function checkStock() {
         const page = await browser.newPage();
         
         for (const sku of SKUs) {
-            const url = `https://www.motorola.in/smartphones-motorola-edge-60-fusion/p?skuId=${sku}`;
+            const url = `https://www.motorola.in/smartphones-motorola-edge-50-neo/p?skuId=${sku}`;
             console.log(`Checking color SKU: ${sku}...`);
             
             await page.goto(url, { waitUntil: 'networkidle2' });
@@ -36,7 +37,7 @@ async function checkStock() {
                 allOutOfStock = false;
                 await axios.post(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
                     chat_id: CHAT_ID,
-                    text: `🚨 URGENT: Moto Edge 60 Fusion (SKU: ${sku}) is IN STOCK! Buy here NOW: ${url}`
+                    text: `🚨 URGENT: Moto Edge 50 neo (SKU: ${sku}) is IN STOCK! Buy here NOW: ${url}`
                 });
             } else {
                 console.log(`SKU ${sku} is still out of stock.`);
@@ -49,7 +50,7 @@ async function checkStock() {
         if (allOutOfStock && isHourlyRun) {
             await axios.post(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
                 chat_id: CHAT_ID,
-                text: `🕒 Hourly Status Report: Checked all 4 colors. The Moto Edge 60 Fusion is currently OUT OF STOCK. Continuing to monitor...`
+                text: `🕒 Hourly Status Report: Checked all 2 colors. The Moto Edge 50 neo is currently OUT OF STOCK. Continuing to monitor...`
             });
         }
 
